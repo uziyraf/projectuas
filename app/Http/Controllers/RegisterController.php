@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Validation\Rules;
 
 class RegisterController extends Controller
 {
@@ -16,23 +19,44 @@ class RegisterController extends Controller
     
     public function simpan(Request $request)
     {
+        // $request->validate([
+        //     'name' => 'required|string|max:255',
+        //     'nim' => 'required|string|max:12|unique:users',
+        //     'email' => 'required|string|email|max:255|unique:users',
+        //     'password' => 'required|string|min:8|confirmed',
+        //     'address' => 'required|string|max:255',
+        // ]);
+
+        // $user = User::create([
+        //     'name'=> $request->name,
+        //     'nim' => $request->nim,
+        //     'email' => $request->email,
+        //     'password' => Hash::make($request->password),
+        //     'address' => $request->address,
+        //     // 'role' => $request->role,
+        //     // 'active' => 1
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => ['required', 'string', 'max:255'],
             'nim' => 'required|string|max:12|unique:users',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'address' => 'required|string|max:255',
         ]);
 
         $user = User::create([
-            'name'=> $request->name,
+            'name' => $request->name,
             'nim' => $request->nim,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'address' => $request->address,
-            // 'role' => $request->role,
-            // 'active' => 1
         ]);
+
+        event(new Registered($user));
+
+        Auth::login($user);
+
+        return redirect(route('room', absolute: false));
+
 
         // Session::flash('message', 'Register Berhasil. Akun Anda sudah Aktif silahkan Login menggunakan username dan password.');
         // return redirect('profil');

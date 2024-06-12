@@ -25,7 +25,7 @@
                 {{session('message')}}
             </div>
  @endif
-<form class="row g-3" method="POST" action="/register">
+<form class="row g-3" method="POST"  action="{{ route('register') }}">
   @csrf
   <div class="col-md-6">
     <label for="inputName" class="form-label">Name</label>
