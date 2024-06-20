@@ -6,10 +6,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
-class loginController extends Controller
+class LoginController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -87,11 +86,12 @@ class loginController extends Controller
     }
 
     public function registerPost(Request $request){
+        
         $request->validate([
             'name' => 'required|string|max:255',
-            'nim' => 'required|string|max:12|unique:users',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
+            'nim' => 'required|string|max:12',
+            'email' => 'required|string|email|max:255',
+            'password' => 'required|string',
             'address' => 'required|string|max:255',
         ]);
 
@@ -101,12 +101,9 @@ class loginController extends Controller
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
         $user->address = $request->address;
-        if ($user->save()){
-            return redirect('/login')
-            ->with("success", "user created successfully");
-        }
-        return redirect('/register')
-        ->with("error", "Failed to create account");
+        $user->save();
+
+        return redirect('/login');
     }
     
 

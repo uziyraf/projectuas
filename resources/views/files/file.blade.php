@@ -31,14 +31,8 @@
                                         <td>{{ $file->original_name }}</td>
                                         <td class="text-center">
                                         <a href="{{ route('files.download', $file) }}" class="btn btn-sm btn-primary">Download</a>
-                                        <a href="{{ route('files.edit', $file) }}" method="PUT" style="display:inline;">
-                                           Edit
-                                        </a>
-                                        <form action="{{ route('files.delete', $file) }}" method="delete" style="display:inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
-                                        </form>
+                                        <a href="{{ route('files.edit',['file'=> $file->id])}}" class="btn btn-sm btn-primary">Edit</a>
+                                        <a href="{{ route('files.delete',['file'=> $file->id])}}" class="btn btn-sm btn-danger">Hapus</a>
                                         </td>
                                     </tr>
                                 @empty

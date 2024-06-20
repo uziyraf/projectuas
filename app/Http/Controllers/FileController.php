@@ -74,7 +74,7 @@ class FileController extends Controller
      */
     public function edit(File $file)
     {
-        return view('files.edit',['File' => $file]);
+        return view('files.edit',['file' => $file]);
     }
 
     /**
@@ -86,14 +86,14 @@ class FileController extends Controller
             'file' => 'required|mimes:docx,pdf|max:2048'
         ]);
 
-        $file = $request->file('file');
-        $fileName = $file->hashName();
-        $file->storeAs('uploads', $fileName);
+        $f = $request->file('file');
+        $fileName = $f->hashName();
+        $f->storeAs('uploads', $fileName);
 
-        File::create([
-            'original_name' => $file->getClientOriginalName(),
-            'generated_name' => $fileName
-        ]);
+        $file->original_name = $f->getClientOriginalName();
+        $file->generated_name = $fileName;
+        $file->save();
+    
 
         return redirect()
             ->route('files.index')
@@ -107,7 +107,7 @@ class FileController extends Controller
     {
        
         // Hapus entri dari database
-        //$file->delete();
+        $file->delete();
     
         //return redirect('/files') ->with('success', 'File berhasil diHapus');
        // File::where('files', $file)->delete();

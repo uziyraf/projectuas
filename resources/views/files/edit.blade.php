@@ -20,7 +20,7 @@
                 <div class="card rounded">
                     <div class="card-body">
 
-                        <form action="{{ route('files.update') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('files.update',['file'=> $file->id]) }}" method="POST" enctype="multipart/form-data">
 
                             @csrf
                             @method('PUT')
