@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Upload File Baru - qadrlabs.com</title>
+    <title>Upload File Baru</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
@@ -20,7 +20,7 @@
                 <div class="card rounded">
                     <div class="card-body">
 
-                        <form action="{{ route('files.index') }}" method="HEAD" enctype="multipart/form-data">
+                        <form action="{{ route('files.update') }}" method="POST" enctype="multipart/form-data">
 
                             @csrf
                             @method('PUT')

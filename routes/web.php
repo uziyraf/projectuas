@@ -13,7 +13,6 @@ Route::get('/', function () {
 });
 
 Route::middleware('guest')->group(function() {
-    Route::post('/login', [loginController::class, 'index']);
     Route::get('/login', [loginController::class, 'login'])->name('login');
     Route::post('/login', [loginController::class, 'store']);
     
@@ -21,38 +20,33 @@ Route::middleware('guest')->group(function() {
 
 Route::get('/logout', [loginController::class, 'destroy'])->middleware('auth');
 
-Route::get('register', [RegisterController::class, 'register'])->name('register');
-Route::post('register', [RegisterController::class, 'simpan']);
+// Register routes
+Route::get('/register', [LoginController::class, 'register'])->name('register');
+Route::post('/register', [LoginController::class, 'registerPost'])->name('register.post');
 
 
-// Route::prefix('/register')->middleware('auth')->group(function() {
-//     Route::get('/', [registerController::class, 'index']);
-//     Route::get('/create', [registerController::class, 'create']);
-//     Route::post('/', [registerController::class, 'store']);
-// });
+//room route
+Route::get('/room', [roomController::class,'index']);
+Route::get('/room/create', [roomController::class,'create']);
 
+Route::get('/profil', [myProfilController::class,'index']);
 
-// Route::get('/room', [roomController::class,'index']);
-// Route::get('/room/create', [roomController::class,'create']);
+//ROUTE FILE
+Route::get('/files', [FileController::class, 'index'])
+    ->name('files.index');
 
-// Route::get('/profil', [myProfilController::class,'index']);
+Route::get('/files/create', [FileController::class, 'create'])
+    ->name('files.create');
 
-// //ROUTE FILE
-// Route::get('/files', [FileController::class, 'index'])
-//     ->name('files.index');
-
-// Route::get('/files/create', [FileController::class, 'create'])
-//     ->name('files.create');
-
-// Route::post('/files/store', [FileController::class, 'store'])
-//     ->name('files.store');
+Route::post('/files/store', [FileController::class, 'store'])
+    ->name('files.store');
      
-// Route::get('/files/edit', [FileController::class, 'edit'])
-//     ->name('files.edit');
-// Route::put('/files/{file}/update', [FileController::class, 'update'])
-//     ->name('files.update');
+Route::put('/files/edit', [FileController::class, 'edit'])
+    ->name('files.edit');
+Route::put('/files/{file}/update', [FileController::class, 'update'])->name('file.update')
+    ->name('files.update');
 
-// Route::delete('/files/delete', [FileController::class, 'delete'])->name('files.delete');;
+Route::delete('/files/delete', [FileController::class, 'delete'])->name('files.delete');;
 
-// Route::get('/files/{file}/download', [FileController::class, 'download'])
-//     ->name('files.download');
+Route::get('/files/{file}/download', [FileController::class, 'download'])
+    ->name('files.download');

@@ -8,21 +8,12 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Session;
 
 class loginController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $users = DB::table('users')->get();
- 
-        return view('auth.login', ['users' => $users]);
-    }
-
     /**
      * Show the form for creating a new resource.
      */
@@ -89,13 +80,13 @@ class loginController extends Controller
         return redirect('/');
     }
 
-    public function create()
+    public function register()
     {
-        return view('room.register');
+        return view('auth.register');
 
     }
-    public function register(Request $request){
 
+    public function registerPost(Request $request){
         $request->validate([
             'name' => 'required|string|max:255',
             'nim' => 'required|string|max:12|unique:users',
@@ -104,30 +95,20 @@ class loginController extends Controller
             'address' => 'required|string|max:255',
         ]);
 
-      
-       
-        // $users = new User;
-        // $users->name = $request->title;
-        // $users->nim = $request->numeric;
-        // $users->email = $request->string;
-        // $users->password = Hash::make($request->password);
-        // $users->address = $request->string;
-        // $users->save();
-
-        $user = User::create([
-            'name'=> $request->name,
-            'nim' => $request->nim,
-            'email' => $request->email,
-            'password' => $request->password,
-            'address' => $request->address,
-        ]);
-
-        Session::flash('message', 'Register Berhasil. Akun Anda sudah Aktif silahkan Login menggunakan username dan password.');
-        Log::info('User registered successfully: ' . $user->id);
-        
-        return redirect('/room');
-        
+        $user = new User();
+        $user->name = $request->name;
+        $user->nim = $request->nim;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->address = $request->address;
+        if ($user->save()){
+            return redirect('/login')
+            ->with("success", "user created successfully");
+        }
+        return redirect('/register')
+        ->with("error", "Failed to create account");
     }
+    
 
     
 }
