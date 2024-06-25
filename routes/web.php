@@ -20,33 +20,31 @@ Route::middleware('guest')->group(function() {
 
 Route::get('/logout', [LoginController::class, 'destroy'])->middleware('auth');
 
-// Register routes
+//route Register
+
 Route::get('/register', [LoginController::class, 'register']);
 Route::post('/register', [LoginController::class, 'registerPost']);
 
 
-//room route
-Route::get('/room', [roomController::class,'index']);
-Route::get('/room/create', [roomController::class,'create']);
+//route room 
+// Route::prefix('/room')->middleware('auth')->group(function() {
+Route::get('/room', [roomController::class,'index'])->name('room')->middleware('auth');
+Route::get('/room/create', [roomController::class,'create'])->middleware('auth');
 
-Route::get('/profil', [myProfilController::class,'index']);
+Route::get('/profil', [myProfilController::class,'index'])->middleware('auth');
+
 
 //ROUTE FILE
-Route::get('/files', [FileController::class, 'index'])
-    ->name('files.index');
+// Route::prefix('/files')->middleware('auth')->group(function() {
+Route::get('/files', [FileController::class, 'index'])->name('files.index')->middleware('auth');
 
-Route::get('/files/create', [FileController::class, 'create'])
-    ->name('files.create');
+Route::get('/files/create', [FileController::class, 'create'])->name('files.create')->middleware('auth');
 
-Route::post('/files/store', [FileController::class, 'store'])
-    ->name('files.store');
+Route::post('/files/store', [FileController::class, 'store'])->name('files.store')->middleware('auth');
      
-Route::get('/files/{file}/edit', [FileController::class, 'edit'])
-    ->name('files.edit');
-Route::put('/files/{file}/update', [FileController::class, 'update'])
-    ->name('files.update');
+Route::get('/files/{file}/edit', [FileController::class, 'edit'])->name('files.edit')->middleware('auth');
+Route::put('/files/{file}/update', [FileController::class, 'update'])->name('files.update')->middleware('auth');
 
-Route::get('/files/{file}/delete', [FileController::class, 'delete'])->name('files.delete');;
+Route::get('/files/{file}/delete', [FileController::class, 'delete'])->name('files.delete')->middleware('auth');
 
-Route::get('/files/{file}/download', [FileController::class, 'download'])
-    ->name('files.download');
+Route::get('/files/{file}/download', [FileController::class, 'download'])->name('files.download')->middleware('auth');

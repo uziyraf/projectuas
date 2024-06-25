@@ -15,7 +15,7 @@
                 <div>
                     <h4 class="text-center my-4">My Files</h4>
                 </div>
-                <a href="{{ route('files.index') }}" class="btn btn-md btn-link mb-3">Back</a>
+                <a href="{{ route('files.index') }}" class="btn btn-md btn-primary mb-3">Back</a>
 
                 <div class="card rounded">
                     <div class="card-body">

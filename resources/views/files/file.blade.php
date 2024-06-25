@@ -17,7 +17,9 @@
                 </div>
                 <div class="card rounded">
                     <div class="card-body">
+                        <a href="{{ route('room') }}" class="btn btn-md btn-primary mb-3">Back</a>
                         <a href="{{ url('files/create') }}" class="btn btn-md btn-primary mb-3 float-end">Upload File</a>
+                       
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
